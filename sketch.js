@@ -12,6 +12,16 @@ let moleculeKey = [];
 let checkIntersection;
 let molFill = false;
 
+let guiVars = {
+    numOfMolecules: 50,
+    numRows: 4,
+    numCols: 8,
+    radiusBaseline:5,
+    showGrid:true,
+    render:true,
+    showTrails:false
+};
+
 //P5 Setup
 function setup() {
   //Setup canvas
@@ -20,11 +30,14 @@ function setup() {
   background(0);
 
   //Generate Molecules
-  for (let i = 0; i < numOfMolecules; i++) {
-    molecules.push(new Molecule(i));
-  }
+//   for (let i = 0; i < numOfMolecules; i++) {
+//     molecules.push(new Molecule(i));
+//   }
+generateMolecules();
+
 
   //*Add GUI*
+  addGui();
 
 //   noLoop();
 }
@@ -53,6 +66,8 @@ checkIntersections();
   fill(47, 226, 255);
   textSize(11);
   text("FPS: " + frameRate().toFixed(0), 5, 14);
+
+  if(guiVars.render)renderGrid();
 }
 
 function renderGrid() {
@@ -108,3 +123,22 @@ function checkIntersections() {
       }
     }
   }
+
+  function addGui(){
+    let gui = new dat.GUI();
+    gui.domElement.id = 'gui';
+    gui.add(guiVars, 'numOfMolecules', 0, 1000).onChange(() => generateMolecules()).step(1);//-Regenerates the molecules when changed
+    gui.add(guiVars, 'radiusBaseline', 0, 100).step(1);
+    gui.add(guiVars, 'numRows', 1, 30).step(1);
+    gui.add(guiVars, 'numCols', 1, 30).step(1);
+    gui.add(guiVars, 'showGrid');
+    gui.add(guiVars, 'render');
+    gui.add(guiVars, 'showTrails');
+}
+
+function generateMolecules(){
+    molecules = [];
+    for (let i = 0; i < guiVars.numOfMolecules; i++) {
+            molecules.push(new Molecule(i));
+        }
+}

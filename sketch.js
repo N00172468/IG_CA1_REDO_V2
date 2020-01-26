@@ -1,75 +1,55 @@
-//Initialise variables
-var minRadius = 5;
-var maxRadius = 20;
+let minRadius = 10;
+let maxRadius = 20;
 let radius = minRadius + maxRadius;
 let molecules = [];
-var numOfMolecules = 400;
-var numRows = 8; // Default for GUI
-var numCols = 16; // Default for GUI
-let rowWidth;
+let numRows = 8;
+let numCols = 16;
+let colWidth;
 let rowHeight;
 let moleculeKey = [];
 let checkIntersection;
 
-let guiVars = {
-    numOfMolecules: 300,
-    numRows: 4,
-    numCols: 8,
-    radiusBaseline:5,
-    showGrid:true,
-    render:true,
-    step:true,
-    checkEdges:true,
-    showTrails:false
+var guiObj = {
+  numOfMolecules: 300,
+  numCols: 8,
+  numRows: 4,
+  render: true,
+  grid: true,
+  intersect: true,
+  bruteChecks: false
 };
 
-//P5 Setup
 function setup() {
-  //Setup canvas
- createCanvas(windowWidth, windowHeight);
-//   createCanvas(600, 600);
+  createCanvas(windowWidth, windowHeight);
   background(0);
 
-  //Generate Molecules
-//   for (let i = 0; i < numOfMolecules; i++) {
-//     molecules.push(new Molecule(i));
-//   }
-generateMolecules();
+  generateMolecules();
+  displayGui();
 
-
-  //*Add GUI*
-  addGui();
-
-//   noLoop();
+  // noLoop();
 }
 
-//P5 Draw
+// console.time("Time Taken");
 function draw() {
-  //Reset canvas
   background(0);
 
-  //Maths
   colWidth = width / numCols;
   rowHeight = height / numRows;
-  //Draw background grid - drawGrid()
-  drawGrid();
 
-  //Split each molecule into its cell - splitIntoGrids()
+  checkIntersection = 0;
+  checks = 0;
+
+  if (guiObj.render) renderGrid();
+  if (guiObj.grid) drawGrid();
   splitIntoGrids();
+  if (guiObj.intersect)checkIntersections();
+  if (guiObj.bruteChecks)bruteChecks();
 
-  //Check intersections based on cell - checkIntersections()
-checkIntersections();
-
-  //Render every molecule and update - renderGrid()
-//   renderGrid();
-
-  //Framerate display
   fill(47, 226, 255);
   textSize(11);
   text("FPS: " + frameRate().toFixed(0), 5, 14);
-
-  if(guiVars.render)renderGrid();
 }
+// console.timeEnd("Time Taken");
 
 function renderGrid() {
   molecules.forEach(molecule => {
@@ -100,7 +80,6 @@ function splitIntoGrids() {
 }
 
 function create3Darray() {
-  //Shitty?
   moleculeKey = [];
 
   for (i = 0; i < numRows; i++) {
@@ -110,38 +89,58 @@ function create3Darray() {
     }
     moleculeKey.push(tempArray);
   }
-// console.log(moleculeKey);
+  // console.log(moleculeKey);
 }
 
 function checkIntersections() {
-    for (let i = 0; i < molecules.length; i++) {
-      for (let j = i + 1; j < molecules.length; j++) {
-          if (p5.Vector.sub(molecules[i].position, molecules[j].position).mag() < radius) {
-            checkIntersection++;
-          molecules[i].molFill = true; // When intersect, fill in Object i
-          molecules[j].molFill = true; // When intersect, fill in Object j
-        }
+  for (let i = 0; i < molecules.length; i++) {
+    for (let j = i + 1; j < molecules.length; j++) {
+      if (
+        p5.Vector.sub(molecules[i].position, molecules[j].position).mag() <
+        radius
+      ) {
+        checkIntersection++;
+        molecules[i].molFill = true; // When intersect, fill in Object i
+        molecules[j].molFill = true; // When intersect, fill in Object j
       }
     }
   }
-
-  function addGui(){
-    let gui = new dat.GUI();
-    gui.domElement.id = 'gui';
-    gui.add(guiVars, 'numOfMolecules', 0, 1000).onChange(() => generateMolecules()).step(1);//-Regenerates the molecules when changed
-    gui.add(guiVars, 'radiusBaseline', 0, 100).step(1);
-    gui.add(guiVars, 'numRows', 1, 30).step(1);
-    gui.add(guiVars, 'numCols', 1, 30).step(1);
-    gui.add(guiVars, 'showGrid');
-    gui.add(guiVars, 'render');
-    gui.add(guiVars, 'step');
-    gui.add(guiVars, 'checkEdges');
-    gui.add(guiVars, 'showTrails');
+  fill(47, 226, 255);
+  textSize(11);
+  text("Intersections: " + checkIntersection, 5, 25);
 }
 
-function generateMolecules(){
-    molecules = [];
-    for (let i = 0; i < guiVars.numOfMolecules; i++) {
-            molecules.push(new Molecule(i));
-        }
+function displayGui() {
+  let gui = new dat.GUI();
+  gui.domElement.id = "gui";
+  gui
+    .add(guiObj, "numOfMolecules", 0, 1000)
+    .onChange(() => generateMolecules())
+    .step(1);
+  gui.add(guiObj, "numCols", 1, 30).step(1);
+  gui.add(guiObj, "numRows", 1, 30).step(1);
+  gui.add(guiObj, "render");
+  gui.add(guiObj, "grid");
+  gui.add(guiObj, "intersect");
+  gui.add(guiObj, "bruteChecks");
+}
+
+function generateMolecules() {
+  molecules = [];
+  for (let i = 0; i < guiObj.numOfMolecules; i++) {
+    molecules.push(new Molecule(i));
+  }
+}
+
+function bruteChecks() {
+  for (let i = 0; i < molecules.length; i++) {
+    for (let j = 0; j < molecules.length; j++) {
+      if (p5.Vector.sub(molecules[i].position, molecules[j].position).mag() < radius) {
+        checks++;
+      }
+    }
+  }
+  fill(47, 226, 255);
+  textSize(11);
+  text("Brute Checks: " + checks, 5, 36);
 }

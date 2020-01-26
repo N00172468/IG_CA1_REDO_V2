@@ -11,8 +11,6 @@ let checkIntersection;
 
 var guiObj = {
   numOfMolecules: 300,
-  numCols: 8,
-  numRows: 4,
   render: true,
   grid: true,
   intersect: true,
@@ -40,9 +38,9 @@ function draw() {
   checks = 0;
 
   if (guiObj.render) renderGrid();
+  if (guiObj.intersect)checkIntersections();
   if (guiObj.grid) drawGrid();
   splitIntoGrids();
-  if (guiObj.intersect)checkIntersections();
   if (guiObj.bruteChecks)bruteChecks();
 
   fill(47, 226, 255);
@@ -117,8 +115,6 @@ function displayGui() {
     .add(guiObj, "numOfMolecules", 0, 1000)
     .onChange(() => generateMolecules())
     .step(1);
-  gui.add(guiObj, "numCols", 1, 30).step(1);
-  gui.add(guiObj, "numRows", 1, 30).step(1);
   gui.add(guiObj, "render");
   gui.add(guiObj, "grid");
   gui.add(guiObj, "intersect");

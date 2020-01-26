@@ -1,24 +1,25 @@
 //Initialise variables
-var minRadius = 15;
-var maxRadius = 30;
+var minRadius = 5;
+var maxRadius = 20;
 let radius = minRadius + maxRadius;
 let molecules = [];
 var numOfMolecules = 400;
-var numRows = 3; // Default for GUI
-var numCols = 3; // Default for GUI
+var numRows = 8; // Default for GUI
+var numCols = 16; // Default for GUI
 let rowWidth;
 let rowHeight;
 let moleculeKey = [];
 let checkIntersection;
-let molFill = false;
 
 let guiVars = {
-    numOfMolecules: 50,
+    numOfMolecules: 300,
     numRows: 4,
     numCols: 8,
     radiusBaseline:5,
     showGrid:true,
     render:true,
+    step:true,
+    checkEdges:true,
     showTrails:false
 };
 
@@ -60,7 +61,7 @@ function draw() {
 checkIntersections();
 
   //Render every molecule and update - renderGrid()
-  renderGrid();
+//   renderGrid();
 
   //Framerate display
   fill(47, 226, 255);
@@ -133,6 +134,8 @@ function checkIntersections() {
     gui.add(guiVars, 'numCols', 1, 30).step(1);
     gui.add(guiVars, 'showGrid');
     gui.add(guiVars, 'render');
+    gui.add(guiVars, 'step');
+    gui.add(guiVars, 'checkEdges');
     gui.add(guiVars, 'showTrails');
 }
 

@@ -6,7 +6,7 @@ class Molecule {
       random(this.radius, width - this.radius * 2),
       random(this.radius, height - this.radius * 2)
     );
-    this.velocity = createVector(random(-3, 2), random(-3, 2));
+    this.velocity = createVector(random(-2, 1), random(-2, 1));
     this.moleculeId = _moleculeId; // Tracking I.D per Object (Starting at Object I.D: 0)
     this.molFill = false; // Object Fill colour = False by default
   }

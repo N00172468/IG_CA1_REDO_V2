@@ -3,6 +3,7 @@ let minRadius = 10, maxRadius = 20, radius = minRadius + maxRadius; // Radius Va
 let numRows = 5, numCols = 10, colWidth, rowHeight; // Grid Variables
 let moleculeKey = []; // 3D Array
 
+// Variables for GUI:
 var guiObj = {
   numOfMolecules: 100,
   render: true,
@@ -117,5 +118,3 @@ function bruteChecks() {
   textSize(11);
   text("Brute Checks: " + checks, 5, 36);
 }
-
-

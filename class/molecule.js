@@ -1,5 +1,4 @@
 class Molecule {
-  //Set variables
   constructor(_moleculeId) {
     this.radius = random(minRadius, maxRadius);
     this.position = createVector(
@@ -8,10 +7,9 @@ class Molecule {
     );
     this.velocity = createVector(random(-1, 1), random(-1, 1));
     this.moleculeId = _moleculeId; // Tracking I.D per Object (Starting at Object I.D: 0)
-    this.molFill = false; // Object Fill colour = False by default
+    this.molFill = false; // Object Fill Colour = False by Default
   }
 
-  //Render molecule
   render() {
     this.molFill ? fill(56, 131, 227) : noFill(); // i.e. If Objects are intersecting, fill in objects. Else don't fill
 
@@ -25,12 +23,10 @@ class Molecule {
     this.molFill = false;
   }
 
-  //Update Molecule
   step() {
     this.position.add(this.velocity);
   }
 
-  //Prevent Molecule hitting edge
   checkEdges() {
     if (
       this.position.x < this.radius ||
@@ -38,7 +34,6 @@ class Molecule {
     ) {
       this.velocity.x = this.velocity.x * -1;
     }
-
     if (
       this.position.y < this.radius ||
       this.position.y > height - this.radius

@@ -34,9 +34,6 @@ function draw() {
   colWidth = width / numCols;
   rowHeight = height / numRows;
 
-  checkIntersection = 0;
-  checks = 0;
-
   if (guiObj.render) renderGrid();
   if (guiObj.intersect)checkIntersections();
   if (guiObj.grid) drawGrid();
@@ -91,6 +88,8 @@ function create3Darray() {
 }
 
 function checkIntersections() {
+  checkIntersection = 0;
+
   for (let i = 0; i < molecules.length; i++) {
     for (let j = i + 1; j < molecules.length; j++) {
       if (
@@ -129,6 +128,8 @@ function generateMolecules() {
 }
 
 function bruteChecks() {
+  checks = 0;
+
   for (let i = 0; i < molecules.length; i++) {
     for (let j = 0; j < molecules.length; j++) {
       if (p5.Vector.sub(molecules[i].position, molecules[j].position).mag() < radius) {

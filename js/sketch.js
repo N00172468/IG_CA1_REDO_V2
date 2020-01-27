@@ -8,23 +8,23 @@ function setup() {
   // noLoop();
 }
 
-// console.time("Time Taken");
 function draw() {
   background(0);
-
+  
   colWidth = width / numCols;
   rowHeight = height / numRows;
-
+  
+  // console.time("Time Taken");
   if (guiObj.render) renderGrid();
   if (guiObj.intersect)checkIntersections();
   if (guiObj.grid) drawGrid();
   splitIntoGrids();
   if (guiObj.bruteChecks)bruteChecks();
+  // console.timeEnd("Time Taken");
 
   fill(47, 226, 255);
   textSize(11);
   text("FPS: " + frameRate().toFixed(0), 5, 14);
 }
-// console.timeEnd("Time Taken");
 
 

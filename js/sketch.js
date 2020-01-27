@@ -10,7 +10,7 @@ let moleculeKey = [];
 let checkIntersection;
 
 var guiObj = {
-  numOfMolecules: 300,
+  numOfMolecules: 100,
   render: true,
   grid: true,
   intersect: true,

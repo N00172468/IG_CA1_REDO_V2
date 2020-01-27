@@ -26,7 +26,7 @@ function displayGui() {
     gui.add(guiObj, "bruteChecks");
   }
 
-// *** RENDER OBJECTS WITHIN GRID *** // 
+// *** RENDER OBJECTS *** // 
 function renderGrid() {
   molecules.forEach(molecule => {
     molecule.render();
@@ -35,7 +35,7 @@ function renderGrid() {
   });
 }
 
-// *** RENDER OBJECT ARRAY *** //
+// *** GENERATE OBJECT ARRAY *** //
 function generateMolecules() {
     molecules = [];
     for (let i = 0; i < guiObj.numOfMolecules; i++) {
@@ -50,8 +50,10 @@ function checkIntersections() {
   for (let i = 0; i < molecules.length; i++) {
     for (let j = i + 1; j < molecules.length; j++) {
       if (
-        p5.Vector.sub(molecules[i].position, molecules[j].position).mag() <
-        radius
+        p5.Vector.sub(
+          molecules[i].position, 
+          molecules[j].position
+          ).mag() < radius
       ) {
         checkIntersection++;
         molecules[i].molFill = true; // When intersect, fill in Object i
@@ -64,7 +66,7 @@ function checkIntersections() {
   text("Intersections: " + checkIntersection, 5, 25);
 }
 
-// *** RENDER ACTUAL GRID *** //
+// *** DRAW GRID *** //
 function drawGrid() {
   for (let y = 0; y < numRows; y++) {
     for (let x = 0; x < numCols; x++) {
@@ -107,8 +109,10 @@ function bruteChecks() {
   for (let i = 0; i < molecules.length; i++) {
     for (let j = 0; j < molecules.length; j++) {
       if (
-        p5.Vector.sub(molecules[i].position, molecules[j].position).mag() <
-        radius
+        p5.Vector.sub(
+          molecules[i].position, 
+          molecules[j].position
+          ).mag() < radius
       ) {
         checks++;
       }

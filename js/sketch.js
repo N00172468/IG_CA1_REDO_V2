@@ -2,6 +2,9 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   background(0);
 
+  colWidth = width / numCols;
+  rowHeight = height / numRows;
+
   generateMolecules();
   displayGui();
 
@@ -10,9 +13,6 @@ function setup() {
 
 function draw() {
   background(0);
-  
-  colWidth = width / numCols;
-  rowHeight = height / numRows;
   
   // console.time("Time Taken");
   if (guiObj.render) renderGrid();
